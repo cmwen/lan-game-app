@@ -1,83 +1,47 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-// Available services (uncomment to use):
-// import 'package:min_flutter_template/services/storage_service.dart';
-// import 'package:min_flutter_template/services/network_service.dart';
+import 'core/theme/app_theme.dart';
+import 'games/game_registry.dart';
+import 'games/hold_steady/hold_steady_game.dart';
+import 'games/reaction/reaction_game.dart';
+import 'games/shake_race/shake_race_game.dart';
+import 'games/tap_frenzy/tap_frenzy_game.dart';
+import 'games/tap_war/tap_war_game.dart';
+import 'games/tilt_racer/tilt_racer_game.dart';
+import 'routing/app_router.dart';
 
 void main() {
-  runApp(const MyApp());
+  WidgetsFlutterBinding.ensureInitialized();
+
+  // Register all available mini-games with the shell registry.
+  _registerGames();
+
+  runApp(const ProviderScope(child: PartyPocketApp()));
 }
 
-/// The root widget of the application.
-///
-/// AI CUSTOMIZATION:
-/// - Change `title` to your app name
-/// - Modify `colorScheme` seedColor to change the app's primary color
-/// - Replace `MyHomePage` with your own home screen widget
-class MyApp extends StatelessWidget {
-  const MyApp({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'My App', // TODO: Change to your app name
-      theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
-        useMaterial3: true,
-      ),
-      home: const MyHomePage(title: 'My App'), // TODO: Change to your app name
-    );
-  }
+void _registerGames() {
+  GameRegistry.register(ShakeRaceFactory());
+  GameRegistry.register(TapWarFactory());
+  GameRegistry.register(TapFrenzyFactory());
+  GameRegistry.register(ReactionGameFactory());
+  GameRegistry.register(HoldSteadyFactory());
+  GameRegistry.register(TiltRacerFactory());
 }
 
-/// The home page of the application.
-///
-/// AI CUSTOMIZATION:
-/// - Rename this class and file for your app
-/// - Replace the counter example with your own UI
-/// - Add navigation to other screens as needed
-class MyHomePage extends StatefulWidget {
-  const MyHomePage({super.key, required this.title});
-
-  final String title;
+/// Root application widget — uses GoRouter for navigation.
+class PartyPocketApp extends ConsumerWidget {
+  const PartyPocketApp({super.key});
 
   @override
-  State<MyHomePage> createState() => _MyHomePageState();
-}
+  Widget build(BuildContext context, WidgetRef ref) {
+    final router = createAppRouter(ref);
 
-class _MyHomePageState extends State<MyHomePage> {
-  int _counter = 0;
-
-  void _incrementCounter() {
-    setState(() {
-      _counter++;
-    });
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Theme.of(context).colorScheme.inversePrimary,
-        title: Text(widget.title),
-      ),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            const Text('You have pushed the button this many times:'),
-            Text(
-              '$_counter',
-              style: Theme.of(context).textTheme.headlineMedium,
-            ),
-          ],
-        ),
-      ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: _incrementCounter,
-        tooltip: 'Increment',
-        child: const Icon(Icons.add),
-      ),
+    return MaterialApp.router(
+      title: 'Party Pocket',
+      debugShowCheckedModeBanner: false,
+      theme: AppTheme.dark,
+      routerConfig: router,
     );
   }
 }
