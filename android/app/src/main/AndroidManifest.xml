@@ -12,24 +12,20 @@
 
     <!-- OPTIONAL PERMISSIONS - Uncomment as needed -->
 
-    <!-- Camera - For photo/video capture functionality -->
-    <!-- <uses-permission android:name="android.permission.CAMERA"/> -->
+    <!-- Camera - For QR code scanning -->
+    <uses-permission android:name="android.permission.CAMERA"/>
 
-    <!-- Location - For maps, geofencing, location-based features -->
-    <!-- <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/> -->
-    <!-- <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/> -->
-
-    <!-- Storage - For file access (Note: Android 10+ uses scoped storage) -->
-    <!-- On Android 10+ (API 29+), prefer MediaStore or Storage Access Framework -->
-    <!-- <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" android:maxSdkVersion="32"/> -->
-    <!-- <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" android:maxSdkVersion="29"/> -->
-
-    <!-- Audio - For voice recording, audio capture -->
+    <!-- Audio - For Scream Meter mini-game -->
     <!-- <uses-permission android:name="android.permission.RECORD_AUDIO"/> -->
 
-    <!-- TODO: Change android:label to your app's display name -->
+    <!-- Required for mDNS (Bonsoir) room discovery on Android -->
+    <uses-permission android:name="android.permission.CHANGE_WIFI_MULTICAST_STATE"/>
+
+    <!-- Vibration - For haptic feedback in games -->
+    <uses-permission android:name="android.permission.VIBRATE"/>
+
     <application
-        android:label="min_flutter_template"
+        android:label="Party Pocket"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher"
         android:networkSecurityConfig="@xml/network_security_config">

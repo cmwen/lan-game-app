@@ -177,7 +177,7 @@ A simple wrapper around SharedPreferences is provided at `lib/services/storage_s
 #### Basic Usage
 
 ```dart
-import 'package:min_flutter_template/services/storage_service.dart';
+import 'package:party_pocket/services/storage_service.dart';
 
 // Initialize once at app startup
 void main() async {

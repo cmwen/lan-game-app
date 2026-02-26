@@ -1,7 +1,7 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import 'package:min_flutter_template/main.dart';
+import 'package:party_pocket/main.dart';
 
 void main() {
   testWidgets('App renders splash screen with title', (

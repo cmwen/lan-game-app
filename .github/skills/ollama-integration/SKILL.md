@@ -38,7 +38,7 @@ real-time feedback.
 ```
 
 **What the AI will do:**
-1. Import the toolkit: `import 'package:min_flutter_template/ollama_toolkit/ollama_toolkit.dart';`
+1. Import the toolkit: `import 'package:party_pocket/ollama_toolkit/ollama_toolkit.dart';`
 2. Create an `OllamaClient` instance
 3. Build a chat UI with message history
 4. Use `chatStream()` for streaming responses

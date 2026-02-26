@@ -79,7 +79,7 @@ Capabilities tracked:
 
 ```dart
 // Import toolkit
-import 'package:min_flutter_template/ollama_toolkit/ollama_toolkit.dart';
+import 'package:party_pocket/ollama_toolkit/ollama_toolkit.dart';
 
 // Create client
 final client = OllamaClient(baseUrl: 'http://localhost:11434');
@@ -202,7 +202,7 @@ dart format lib/ollama_toolkit/ test/ollama_toolkit/
 
 ## Integration Guide
 
-1. Import: `import 'package:min_flutter_template/ollama_toolkit/ollama_toolkit.dart';`
+1. Import: `import 'package:party_pocket/ollama_toolkit/ollama_toolkit.dart';`
 2. Create client: `final client = OllamaClient(...);`
 3. Use API methods or create agents
 4. Persist config with `OllamaConfigService`
