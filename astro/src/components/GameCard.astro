@@ -1,0 +1,97 @@
+---
+interface Props {
+  title: string;
+  tagline: string;
+  emoji: string;
+  players: string;
+  duration: string;
+  description: string;
+}
+
+const { title, tagline, emoji, players, duration, description } = Astro.props;
+---
+
+<div class="game-card">
+  <div class="game-header">
+    <span class="game-emoji">{emoji}</span>
+    <div class="game-title-group">
+      <h3>{title}</h3>
+      <p class="tagline">{tagline}</p>
+    </div>
+  </div>
+  
+  <div class="game-meta">
+    <span class="meta-item">👥 {players}</span>
+    <span class="meta-item">⏱️ {duration}</span>
+  </div>
+  
+  <p class="game-description">{description}</p>
+</div>
+
+<style>
+  .game-card {
+    padding: 20px;
+    border-radius: 10px;
+    background: linear-gradient(135deg, rgba(124, 92, 255, 0.1), rgba(75, 182, 255, 0.05));
+    border: 1px solid rgba(124, 92, 255, 0.2);
+    margin-top: 16px;
+    transition: all 0.3s ease;
+  }
+
+  .game-card:hover {
+    border-color: rgba(124, 92, 255, 0.4);
+    background: linear-gradient(135deg, rgba(124, 92, 255, 0.15), rgba(75, 182, 255, 0.1));
+  }
+
+  .game-header {
+    display: flex;
+    gap: 16px;
+    align-items: flex-start;
+    margin-bottom: 12px;
+  }
+
+  .game-emoji {
+    font-size: 2.5rem;
+    flex-shrink: 0;
+  }
+
+  .game-title-group h3 {
+    margin: 0 0 4px 0;
+    color: #fff;
+  }
+
+  .tagline {
+    margin: 0;
+    color: var(--accent);
+    font-size: 0.95rem;
+    font-style: italic;
+  }
+
+  .game-meta {
+    display: flex;
+    gap: 16px;
+    margin: 12px 0;
+    flex-wrap: wrap;
+  }
+
+  .meta-item {
+    color: var(--muted);
+    font-size: 0.9rem;
+  }
+
+  .game-description {
+    margin: 12px 0 0 0;
+    color: #e6eef6;
+    line-height: 1.6;
+  }
+
+  @media (max-width: 640px) {
+    .game-card {
+      padding: 16px;
+    }
+
+    .game-emoji {
+      font-size: 2rem;
+    }
+  }
+</style>

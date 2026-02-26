@@ -1,68 +1,187 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro'
+import DownloadButton from '../components/DownloadButton.astro'
 ---
 
-<BaseLayout title="Install / Getting Started">
+<BaseLayout title="Install Party Pocket">
   <section>
-    <h2>Install & build guide</h2>
+    <h2>📦 Install & Getting Started</h2>
 
-    <p class="lead">This quick guide shows how to get the Flutter template running locally and how to build release artifacts.</p>
+    <p class="lead">Party Pocket is easy to set up. Just download the APK and start hosting games in seconds!</p>
 
     <div class="card">
-      <h3>Prerequisites</h3>
+      <h3>📥 Quick Download</h3>
+      <p class="lead">Get the latest version:</p>
+      <DownloadButton href="https://github.com/cmwen/lan-game-app/releases/latest" variant="primary">
+        📥 Download Latest APK
+      </DownloadButton>
+      <p style="margin-top:16px;color:var(--muted)">Choose the <code>party-pocket-*.apk</code> file from the latest release.</p>
+    </div>
+
+    <div class="card">
+      <h3>📋 Prerequisites</h3>
       <ul>
-        <li>Flutter SDK 3.10.1 or higher</li>
-        <li>Dart 3.10.1 or higher</li>
-        <li>For Android: Android Studio or Android SDK</li>
-        <li>For iOS: Xcode (macOS only)</li>
-        <li>Node 18+ (for the website, not required for the app)</li>
+        <li><strong>Android 8.0</strong> or higher</li>
+        <li><strong>WiFi Network:</strong> All players must be on the same local WiFi network</li>
+        <li><strong>Storage:</strong> ~50MB free space for the app</li>
+        <li><strong>Camera:</strong> (Optional) For scanning QR codes to join games</li>
       </ul>
     </div>
 
     <div class="card">
-      <h3>Clone the repository</h3>
-      <pre style="background:rgba(255,255,255,0.02);padding:10px;border-radius:8px;overflow:auto">git clone https://github.com/cmwen/min-android-app-template.git
-cd min-android-app-template</pre>
-    </div>
-
-    <div class="card">
-      <h3>Run locally</h3>
+      <h3>🚀 Installation Steps</h3>
+      
+      <p class="lead" style="margin-top:0"><strong>Step 1: Enable Unknown Sources</strong></p>
       <ol>
-        <li>Get dependencies: <code>flutter pub get</code></li>
-        <li>Run on any platform: <code>flutter run</code></li>
-        <li>Or specify a device:</li>
+        <li>Open <strong>Settings</strong> on your Android phone</li>
+        <li>Go to <strong>Security</strong> or <strong>Privacy</strong></li>
+        <li>Find <strong>"Unknown Sources"</strong> or <strong>"Install Unknown Apps"</strong></li>
+        <li>Enable it for your file manager or browser</li>
       </ol>
-      <pre style="background:rgba(255,255,255,0.02);padding:10px;border-radius:8px;overflow:auto">flutter run -d chrome    # Web
-flutter run -d macos     # macOS
-flutter run -d android   # Android
-flutter run -d ios       # iOS</pre>
+
+      <p class="lead"><strong>Step 2: Download the APK</strong></p>
+      <ol>
+        <li>Visit <a href="https://github.com/cmwen/lan-game-app/releases/latest" target="_blank" rel="noopener" style="color:var(--accent)">GitHub Releases</a></li>
+        <li>Download the latest <code>.apk</code> file</li>
+        <li>Wait for the download to complete</li>
+      </ol>
+
+      <p class="lead"><strong>Step 3: Install the App</strong></p>
+      <ol>
+        <li>Open your <strong>Files</strong> or <strong>Downloads</strong> app</li>
+        <li>Find the downloaded <code>party-pocket-*.apk</code> file</li>
+        <li>Tap it to start installation</li>
+        <li>Review permissions and tap <strong>Install</strong></li>
+        <li>Wait for installation to complete</li>
+      </ol>
+
+      <p class="lead"><strong>Step 4: Launch the App</strong></p>
+      <ol>
+        <li>Tap <strong>Open</strong> after installation, or</li>
+        <li>Find <strong>Party Pocket</strong> in your app drawer</li>
+        <li>Tap the app to launch it</li>
+      </ol>
     </div>
 
     <div class="card">
-      <h3>Build release artifacts</h3>
-      <pre style="background:rgba(255,255,255,0.02);padding:10px;border-radius:8px;overflow:auto">flutter build apk         # Android APK
-flutter build appbundle   # Play Store
-flutter build ios         # iOS
-flutter build web         # Web</pre>
+      <h3>🎮 First Game Setup</h3>
+      
+      <p class="lead" style="margin-top:0"><strong>To Host:</strong></p>
+      <ol>
+        <li>Open Party Pocket</li>
+        <li>Tap <strong>"Host Game"</strong></li>
+        <li>Enter a room name (e.g., "My Party")</li>
+        <li>Select which games to play (tap games to toggle)</li>
+        <li>Tap <strong>"Start Hosting"</strong></li>
+        <li>Share the QR code or room code with friends</li>
+        <li>Once players join, tap <strong>"Start Game"</strong></li>
+      </ol>
+
+      <p class="lead"><strong>To Join:</strong></p>
+      <ol>
+        <li>Open Party Pocket</li>
+        <li>Tap <strong>"Join Game"</strong></li>
+        <li>Either <strong>scan the QR code</strong> or <strong>enter the room code</strong></li>
+        <li>Enter your player name</li>
+        <li>Wait for the host to start the game</li>
+      </ol>
     </div>
 
     <div class="card">
-      <h3>Run tests</h3>
-      <pre style="background:rgba(255,255,255,0.02);padding:10px;border-radius:8px;overflow:auto">flutter test              # Run all tests
-flutter test --coverage   # With coverage</pre>
+      <h3>🔧 Troubleshooting</h3>
+
+      <p class="lead" style="margin-top:0"><strong>Installation fails / App won't open</strong></p>
+      <ul>
+        <li>Make sure you have Android 8.0 or higher</li>
+        <li>Try uninstalling any previous version first</li>
+        <li>Ensure you've enabled "Unknown Sources" for your file manager</li>
+        <li>Download the APK again (it might be corrupted)</li>
+      </ul>
+
+      <p class="lead"><strong>Can't connect to host / Can't find games</strong></p>
+      <ul>
+        <li>Make sure all phones are on the <strong>same WiFi network</strong></li>
+        <li>Check that WiFi is not using a captive portal (like in hotels)</li>
+        <li>Try restarting WiFi on both host and guest devices</li>
+        <li>Make sure no firewall is blocking local connections</li>
+      </ul>
+
+      <p class="lead"><strong>Games are lagging or unresponsive</strong></p>
+      <ul>
+        <li>Move closer to the WiFi router</li>
+        <li>Reduce the number of connected devices on WiFi</li>
+        <li>Close background apps to free up phone memory</li>
+        <li>Restart the app and try again</li>
+      </ul>
+
+      <p class="lead"><strong>App crashes</strong></p>
+      <ul>
+        <li>Make sure you're running the latest version</li>
+        <li>Try restarting your phone</li>
+        <li>Clear the app's cache: Settings → Apps → Party Pocket → Storage → Clear Cache</li>
+        <li>Report the issue on <a href="https://github.com/cmwen/lan-game-app/issues" target="_blank" rel="noopener" style="color:var(--accent)">GitHub Issues</a></li>
+      </ul>
     </div>
 
     <div class="card">
-      <h3>Website (optional)</h3>
-      <p>If you need to work on the repository website, switch to the <code>astro/</code> directory and run:</p>
-      <pre style="background:rgba(255,255,255,0.02);padding:10px;border-radius:8px;overflow:auto">cd astro
-npm install
-npm run dev</pre>
+      <h3>🔄 Updating the App</h3>
+      <p>Party Pocket is regularly updated with new games and features. To update:</p>
+      <ol>
+        <li>Download the latest APK from <a href="https://github.com/cmwen/lan-game-app/releases/latest" target="_blank" rel="noopener" style="color:var(--accent)">GitHub Releases</a></li>
+        <li>Install it like you did the first time (it will replace the old version)</li>
+        <li>No need to uninstall the old version first</li>
+      </ol>
     </div>
 
     <div class="card">
-      <h3>Need more help?</h3>
-      <p>Open an issue or pull request on the <a href="https://github.com/cmwen/min-android-app-template" target="_blank" rel="noopener" style="color:var(--accent)">GitHub repository</a>. For CI or release problems check <code>.github/workflows/</code>.</p>
+      <h3>💻 Building from Source</h3>
+      <p class="lead">For developers who want to build from source:</p>
+      
+      <p class="lead" style="margin-top:16px"><strong>Prerequisites</strong></p>
+      <ul>
+        <li>Flutter SDK 3.10.1+</li>
+        <li>Dart 3.10.1+</li>
+        <li>Android SDK or Android Studio</li>
+        <li>Git</li>
+      </ul>
+
+      <p class="lead"><strong>Clone and Build</strong></p>
+      <pre style="background:rgba(255,255,255,0.02);padding:10px;border-radius:8px;overflow:auto">git clone https://github.com/cmwen/lan-game-app.git
+cd lan-game-app
+flutter pub get
+flutter build apk</pre>
+
+      <p style="margin-top:16px">The APK will be available at <code>build/app/outputs/flutter-apk/app-release.apk</code></p>
+
+      <p style="margin-top:16px">For more details, see the <a href="https://github.com/cmwen/lan-game-app/blob/main/README.md" target="_blank" rel="noopener" style="color:var(--accent)">README</a> and <a href="https://github.com/cmwen/lan-game-app/blob/main/GETTING_STARTED.md" target="_blank" rel="noopener" style="color:var(--accent)">Getting Started</a> guides.</p>
+    </div>
+
+    <div class="card">
+      <h3>❓ Need Help?</h3>
+      <p>If you encounter issues or have questions:</p>
+      <ul>
+        <li>📖 Check the <a href="/how-to-play" style="color:var(--accent)">How to Play</a> guide</li>
+        <li>🐛 Report bugs on <a href="https://github.com/cmwen/lan-game-app/issues" target="_blank" rel="noopener" style="color:var(--accent)">GitHub Issues</a></li>
+        <li>💬 Discuss in <a href="https://github.com/cmwen/lan-game-app/discussions" target="_blank" rel="noopener" style="color:var(--accent)">GitHub Discussions</a></li>
+        <li>⭐ Star the <a href="https://github.com/cmwen/lan-game-app" target="_blank" rel="noopener" style="color:var(--accent)">repository</a> if you enjoy the app!</li>
+      </ul>
     </div>
   </section>
 </BaseLayout>
+
+<style>
+  code {
+    background: rgba(124, 92, 255, 0.1);
+    padding: 2px 6px;
+    border-radius: 4px;
+    color: #fff;
+  }
+
+  pre {
+    background: rgba(255, 255, 255, 0.02);
+    padding: 10px;
+    border-radius: 8px;
+    overflow: auto;
+    border: 1px solid rgba(255, 255, 255, 0.05);
+  }
+</style>

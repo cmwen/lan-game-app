@@ -1,0 +1,56 @@
+---
+interface Props {
+  href: string;
+  variant?: 'primary' | 'secondary';
+  children: string;
+}
+
+const { href, variant = 'primary', children } = Astro.props;
+---
+
+<a href={href} class={`download-button ${variant}`}>
+  {children}
+</a>
+
+<style>
+  .download-button {
+    display: inline-block;
+    padding: 12px 28px;
+    border-radius: 8px;
+    text-decoration: none;
+    font-weight: 500;
+    transition: all 0.3s ease;
+    margin-right: 12px;
+    margin-top: 8px;
+  }
+
+  .download-button.primary {
+    background: linear-gradient(135deg, var(--accent), #4bb6ff);
+    color: white;
+  }
+
+  .download-button.primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 16px rgba(124, 92, 255, 0.3);
+  }
+
+  .download-button.secondary {
+    background: rgba(255, 255, 255, 0.05);
+    color: var(--accent);
+    border: 1px solid rgba(124, 92, 255, 0.3);
+  }
+
+  .download-button.secondary:hover {
+    background: rgba(255, 255, 255, 0.1);
+    border-color: rgba(124, 92, 255, 0.6);
+  }
+
+  @media (max-width: 640px) {
+    .download-button {
+      display: block;
+      text-align: center;
+      margin-right: 0;
+      margin-bottom: 8px;
+    }
+  }
+</style>

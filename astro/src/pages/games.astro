@@ -1,0 +1,81 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro'
+import GameCard from '../components/GameCard.astro'
+---
+
+<BaseLayout title="Party Pocket Games">
+  <section>
+    <h2>🎮 All Games</h2>
+    <p class="lead">Choose your favorite or try them all! Each game is quick, competitive, and fun for 2-8 players.</p>
+
+    <div class="games-container">
+      <GameCard
+        title="Tap Frenzy"
+        tagline="Tap like your life depends on it!"
+        emoji="👆"
+        players="2-8 players"
+        duration="10 seconds"
+        description="Tap the button as fast as possible. The player with the most taps wins. It's simple, it's frantic, and it's guaranteed to get your adrenaline pumping!"
+      />
+
+      <GameCard
+        title="Tilt Racer"
+        tagline="Tilt to the finish!"
+        emoji="🎲"
+        players="2-8 players"
+        duration="15-20 seconds per round (best of 3)"
+        description="Tilt your phone to roll the ball into the goal. First to reach the goal wins the round. Complete three rounds to claim victory and prove you're the tilting master!"
+      />
+
+      <GameCard
+        title="Reaction Roulette"
+        tagline="The circle turns green, tap fast!"
+        emoji="⚡"
+        players="2-8 players"
+        duration="3 rounds, ~5 seconds each"
+        description="Watch the circle. When it turns green, tap as fast as you can. Fastest reaction wins the round. Three rounds determine the ultimate reaction champion!"
+      />
+
+      <GameCard
+        title="Hold Steady"
+        tagline="Stand perfectly still!"
+        emoji="🧘"
+        players="2-8 players"
+        duration="30 seconds"
+        description="Keep your phone as still as possible. Any movement counts against you. Last player standing wins. The steadier your hand, the better your score!"
+      />
+    </div>
+
+    <div class="card" style="margin-top:28px">
+      <h3>Tips for Winning</h3>
+      <ul>
+        <li><strong>Tap Frenzy:</strong> Use both thumbs for double the speed. Rapid finger movements are key!</li>
+        <li><strong>Tilt Racer:</strong> Smooth, controlled tilting is better than jerky movements. Find your rhythm.</li>
+        <li><strong>Reaction Roulette:</strong> Stay focused and anticipate the color change. Reaction time is everything.</li>
+        <li><strong>Hold Steady:</strong> Rest your phone on a stable surface if allowed. Minimize all hand movement.</li>
+      </ul>
+    </div>
+
+    <div class="card" style="margin-top:16px">
+      <h3>Game Features</h3>
+      <ul>
+        <li>Real-time scoring and leaderboards</li>
+        <li>All games run locally on your WiFi network</li>
+        <li>No ads or in-app purchases</li>
+        <li>Works on Android 8.0 and higher</li>
+        <li>Perfect for parties, events, or casual gaming</li>
+      </ul>
+    </div>
+
+    <div class="card" style="margin-top:16px">
+      <h3>Ready to Play?</h3>
+      <p class="lead"><a href="/how-to-play" style="color:var(--accent);text-decoration:none">Learn how to host and join games →</a></p>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .games-container {
+    margin-top: 24px;
+  }
+</style>

@@ -1,17 +1,37 @@
 ---
 const { title } = Astro.props;
+const isHome = title === 'Party Pocket';
 ---
 <header class="site-title">
-  <div class="logo">FL</div>
+  <div class="logo">🎮</div>
   <div>
     <h1>{title}</h1>
-    <p class="lead">A minimal Flutter app template for cross-platform development</p>
+    <p class="lead">Local-first LAN party gaming for 2-8 players</p>
     <nav class="nav">
-      <a href="/" class="active">Home</a>
-      <a href="/about">About</a>
-      <a href="/install">Install</a>
-      <a href="/releases">Releases</a>
-      <a href="https://github.com/cmwen/min-android-app-template" target="_blank" rel="noopener">Repository</a>
+      <a href="/" class:list={["nav-link", { active: Astro.url.pathname === '/' }]}>Home</a>
+      <a href="/games" class:list={["nav-link", { active: Astro.url.pathname === '/games' }]}>Games</a>
+      <a href="/how-to-play" class:list={["nav-link", { active: Astro.url.pathname === '/how-to-play' }]}>How to Play</a>
+      <a href="/install" class:list={["nav-link", { active: Astro.url.pathname === '/install' }]}>Install</a>
+      <a href="https://github.com/cmwen/lan-game-app" target="_blank" rel="noopener">GitHub</a>
     </nav>
   </div>
 </header>
+
+<style>
+  .nav-link {
+    color: var(--muted);
+    text-decoration: none;
+    padding: 8px;
+    border-radius: 8px;
+    transition: all 0.2s ease;
+  }
+
+  .nav-link:hover {
+    color: #fff;
+  }
+
+  .nav-link.active {
+    background: rgba(255, 255, 255, 0.03);
+    color: var(--accent);
+  }
+</style>

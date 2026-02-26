@@ -1,54 +1,312 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro'
+import FeatureCard from '../components/FeatureCard.astro'
+import DownloadButton from '../components/DownloadButton.astro'
 ---
-<BaseLayout title="min-flutter-template">
+<BaseLayout title="Party Pocket">
   <section>
-    <h2>Welcome 👋</h2>
-    <p class="lead">A minimal <strong>Flutter</strong> app template for cross-platform development. Build for Android, iOS, Web, and Desktop from a single codebase.</p>
-
-    <div class="card">
-      <h3>What's here</h3>
-      <ul>
-        <li>Short project overview and docs link</li>
-        <li>Quick links to repository and CI</li>
-        <li>Light Startlight-inspired theme</li>
-      </ul>
+    {/* Hero Section */}
+    <div class="hero">
+      <div class="hero-content">
+        <h1 class="hero-title">🎮 Party Pocket</h1>
+        <p class="hero-tagline">Local-first LAN party games for 2-8 players</p>
+        <p class="hero-description">Tap, tilt, and react! Play exciting mini-games with friends on the same WiFi network. No internet, no accounts, just fun.</p>
+        <div class="hero-buttons">
+          <DownloadButton href="https://github.com/cmwen/lan-game-app/releases/latest" variant="primary">
+            📥 Download APK
+          </DownloadButton>
+          <DownloadButton href="/how-to-play" variant="secondary">
+            📖 How to Play
+          </DownloadButton>
+          <DownloadButton href="/install" variant="secondary">
+            ⚙️ Install Guide
+          </DownloadButton>
+        </div>
+      </div>
     </div>
 
-    <div class="card">
-      <h3>Features</h3>
-      <ul>
-        <li>Flutter 3.10.1+ with Material Design 3</li>
-        <li>Cross-platform: Android, iOS, Web, macOS, Linux, Windows</li>
-        <li>Simple dependency management with pubspec.yaml</li>
-        <li>CI/CD workflows with signed release support</li>
-        <li>AI-friendly customization points</li>
-      </ul>
+    {/* Games Showcase */}
+    <div class="games-preview">
+      <h2>🎯 4 Mini-Games Included</h2>
+      <p class="lead">Quick, competitive, and exciting!</p>
+      
+      <div class="games-grid">
+        <div class="game-preview">
+          <div class="game-icon">👆</div>
+          <h3>Tap Frenzy</h3>
+          <p>Tap fastest to win</p>
+        </div>
+        <div class="game-preview">
+          <div class="game-icon">🎲</div>
+          <h3>Tilt Racer</h3>
+          <p>Roll to the goal</p>
+        </div>
+        <div class="game-preview">
+          <div class="game-icon">⚡</div>
+          <h3>Reaction Roulette</h3>
+          <p>Quick reflexes win</p>
+        </div>
+        <div class="game-preview">
+          <div class="game-icon">🧘</div>
+          <h3>Hold Steady</h3>
+          <p>Stay perfectly still</p>
+        </div>
+      </div>
+
+      <p style="text-align:center;margin-top:24px"><a href="/games" style="color:var(--accent);text-decoration:none">View detailed game info →</a></p>
     </div>
 
-    <div class="card">
-      <h3>Download / Release</h3>
-      <p class="lead">Get a packaged release from GitHub Releases (APK, App Bundle, Web).</p>
-      <p><a href="https://github.com/cmwen/min-android-app-template/releases/latest" target="_blank" rel="noopener" style="color:var(--accent);text-decoration:none">Download latest release →</a></p>
+    {/* Features Section */}
+    <div class="features-section">
+      <h2>✨ Why You'll Love It</h2>
+      <p class="lead">Party Pocket is designed for instant fun, no setup required</p>
+      
+      <div class="features-grid">
+        <FeatureCard
+          title="Peer-to-Peer Gaming"
+          emoji="🔗"
+          description="Play directly between phones—no servers, no accounts needed"
+        />
+        <FeatureCard
+          title="LAN-Based"
+          emoji="📡"
+          description="Works on any local WiFi network. Perfect for parties, events, or friend gatherings"
+        />
+        <FeatureCard
+          title="2-8 Players"
+          emoji="👥"
+          description="Host and guests join easily with QR code or room code"
+        />
+        <FeatureCard
+          title="Fast Games"
+          emoji="⚡"
+          description="Games last 10-30 seconds. Perfect for quick competition"
+        />
+        <FeatureCard
+          title="No Internet Required"
+          emoji="🚀"
+          description="Works offline on LAN. Perfect for locations with bad connectivity"
+        />
+        <FeatureCard
+          title="Open Source"
+          emoji="🔓"
+          description="Free, open-source, and community-driven. Contributions welcome!"
+        />
+      </div>
     </div>
 
-    <div class="card">
-      <h3>Quick start</h3>
-      <p class="lead">Get started in minutes with Flutter.</p>
-      <pre style="background:rgba(255,255,255,0.02);padding:10px;border-radius:8px;margin-top:8px;overflow:auto">git clone https://github.com/cmwen/min-android-app-template.git
-cd min-android-app-template
-flutter pub get
-flutter run</pre>
-      <p style="margin-top:8px"><a href="/install" style="color:var(--accent);text-decoration:none">Open full install guide →</a></p>
-    </div>
+    {/* CTA Section */}
+    <div class="cta-section">
+      <h2>Ready to Play?</h2>
+      <p class="lead">Get started in minutes</p>
+      
+      <div class="cta-steps">
+        <div class="step">
+          <div class="step-number">1</div>
+          <h3>Download</h3>
+          <p>Get the APK from GitHub Releases</p>
+        </div>
+        <div class="step">
+          <div class="step-number">2</div>
+          <h3>Host a Game</h3>
+          <p>One player starts as host on WiFi</p>
+        </div>
+        <div class="step">
+          <div class="step-number">3</div>
+          <h3>Share & Play</h3>
+          <p>Others join via QR code or room code</p>
+        </div>
+      </div>
 
-    <div class="card">
-      <h3>Next steps</h3>
-      <ol>
-        <li>Customize <code>lib/main.dart</code> with your app</li>
-        <li>Update <code>pubspec.yaml</code> with your app name</li>
-        <li>Configure <code>astro/astro.config.mjs</code> for your GitHub Pages URL</li>
-      </ol>
+      <div style="text-align:center;margin-top:24px">
+        <DownloadButton href="https://github.com/cmwen/lan-game-app/releases/latest" variant="primary">
+          Get Started →
+        </DownloadButton>
+      </div>
     </div>
   </section>
 </BaseLayout>
+
+<style>
+  .hero {
+    text-align: center;
+    margin-bottom: 48px;
+    padding: 32px;
+    background: linear-gradient(135deg, rgba(124, 92, 255, 0.1), rgba(75, 182, 255, 0.05));
+    border: 1px solid rgba(124, 92, 255, 0.15);
+    border-radius: 12px;
+  }
+
+  .hero-content {
+    max-width: 600px;
+    margin: 0 auto;
+  }
+
+  .hero-title {
+    font-size: clamp(2.5rem, 6vw, 3.5rem);
+    margin: 0 0 12px 0;
+    color: #fff;
+  }
+
+  .hero-tagline {
+    font-size: 1.3rem;
+    color: var(--accent);
+    margin: 0 0 16px 0;
+    font-weight: 500;
+  }
+
+  .hero-description {
+    color: var(--muted);
+    margin: 0 0 24px 0;
+    line-height: 1.6;
+    font-size: 1.1rem;
+  }
+
+  .hero-buttons {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 12px;
+  }
+
+  .games-preview {
+    margin: 48px 0;
+  }
+
+  .games-preview h2 {
+    text-align: center;
+    margin-bottom: 8px;
+  }
+
+  .games-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 16px;
+    margin-top: 28px;
+  }
+
+  .game-preview {
+    padding: 20px;
+    border-radius: 10px;
+    background: linear-gradient(135deg, rgba(124, 92, 255, 0.08), rgba(75, 182, 255, 0.03));
+    border: 1px solid rgba(124, 92, 255, 0.15);
+    text-align: center;
+    transition: all 0.3s ease;
+  }
+
+  .game-preview:hover {
+    border-color: rgba(124, 92, 255, 0.4);
+    background: linear-gradient(135deg, rgba(124, 92, 255, 0.12), rgba(75, 182, 255, 0.06));
+  }
+
+  .game-icon {
+    font-size: 2.5rem;
+    margin-bottom: 12px;
+  }
+
+  .game-preview h3 {
+    margin: 8px 0 4px 0;
+    color: #fff;
+  }
+
+  .game-preview p {
+    margin: 0;
+    color: var(--muted);
+    font-size: 0.9rem;
+  }
+
+  .features-section {
+    margin: 48px 0;
+  }
+
+  .features-section h2 {
+    text-align: center;
+    margin-bottom: 8px;
+  }
+
+  .features-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 16px;
+    margin-top: 28px;
+  }
+
+  .cta-section {
+    margin-top: 48px;
+    padding: 32px;
+    background: linear-gradient(135deg, rgba(124, 92, 255, 0.08), rgba(75, 182, 255, 0.03));
+    border: 1px solid rgba(124, 92, 255, 0.15);
+    border-radius: 12px;
+    text-align: center;
+  }
+
+  .cta-section h2 {
+    margin-top: 0;
+  }
+
+  .cta-steps {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 20px;
+    margin-top: 28px;
+    margin-bottom: 24px;
+  }
+
+  .step {
+    padding: 20px;
+    background: rgba(255, 255, 255, 0.02);
+    border-radius: 8px;
+    border: 1px solid rgba(255, 255, 255, 0.05);
+  }
+
+  .step-number {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    background: linear-gradient(135deg, var(--accent), #4bb6ff);
+    border-radius: 50%;
+    color: white;
+    font-weight: bold;
+    font-size: 1.2rem;
+    margin-bottom: 12px;
+  }
+
+  .step h3 {
+    margin: 0 0 8px 0;
+    color: #fff;
+  }
+
+  .step p {
+    margin: 0;
+    color: var(--muted);
+    font-size: 0.9rem;
+  }
+
+  @media (max-width: 640px) {
+    .hero {
+      padding: 24px;
+      margin-bottom: 32px;
+    }
+
+    .hero-title {
+      font-size: 2rem;
+    }
+
+    .hero-buttons {
+      flex-direction: column;
+    }
+
+    .games-grid,
+    .features-grid,
+    .cta-steps {
+      grid-template-columns: 1fr;
+    }
+
+    .cta-section {
+      padding: 24px;
+    }
+  }
+</style>
+
