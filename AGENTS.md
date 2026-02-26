@@ -213,8 +213,8 @@ For complete details, see [BUILD_OPTIMIZATION.md](BUILD_OPTIMIZATION.md)
 
 **Prompt**:
 ```
-Please rename this Flutter app from "min_flutter_template" to "my_awesome_app" 
-and update the package from "com.cmwen.min_flutter_template" to "com.mycompany.my_awesome_app".
+Please rename this Flutter app from "party_pocket" to "my_awesome_app" 
+and update the package from "com.cmwen.party_pocket" to "com.mycompany.my_awesome_app".
 
 Update all files including:
 - pubspec.yaml (name, description)

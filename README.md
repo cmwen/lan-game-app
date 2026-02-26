@@ -60,7 +60,7 @@ flutter test && flutter analyze
 
 Then customize using AI:
 ```
-@flutter-developer Please rename this app from "min_flutter_template" 
+@flutter-developer Please rename this app from "party_pocket" 
 to "my_awesome_app" with package "com.mycompany.my_awesome_app"
 ```
 
@@ -194,7 +194,7 @@ Complete LLM integration ready to use in your app - no separate package needed!
 ### Quick Start
 
 ```dart
-import 'package:min_flutter_template/ollama_toolkit/ollama_toolkit.dart';
+import 'package:party_pocket/ollama_toolkit/ollama_toolkit.dart';
 
 // Create client
 final client = OllamaClient(baseUrl: 'http://localhost:11434');

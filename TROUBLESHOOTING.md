@@ -94,7 +94,7 @@ flutter pub get
 dart fix --apply
 
 # If still broken, manually search for old package name:
-grep -r "min_flutter_template" lib/ test/
+grep -r "party_pocket" lib/ test/
 ```
 
 ### ❌ Gradle build fails with memory error
