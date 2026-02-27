@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
@@ -10,6 +11,7 @@ import '../../providers/discovery_provider.dart';
 import '../../providers/network_provider.dart';
 import '../../providers/player_provider.dart';
 import '../../providers/room_provider.dart';
+import '../../providers/settings_provider.dart';
 import '../../routing/app_router.dart';
 
 /// Host lobby — shows room code, QR, player list, and start button.
@@ -94,6 +96,8 @@ class _HostLobbyScreenState extends ConsumerState<HostLobbyScreen> {
   Widget build(BuildContext context) {
     final room = ref.watch(roomProvider);
     final players = room?.players ?? [];
+    final network = ref.watch(networkProvider);
+    final isDev = ref.watch(settingsProvider).developerMode;
 
     if (_initializing) {
       return Scaffold(
@@ -127,7 +131,7 @@ class _HostLobbyScreenState extends ConsumerState<HostLobbyScreen> {
     }
 
     final roomCode = room?.code ?? '----';
-    final canStart = players.length >= 2;
+    final canStart = isDev ? players.isNotEmpty : players.length >= 2;
 
     return PopScope(
       canPop: false,
@@ -153,6 +157,30 @@ class _HostLobbyScreenState extends ConsumerState<HostLobbyScreen> {
             padding: const EdgeInsets.symmetric(horizontal: 24),
             child: Column(
               children: [
+                if (isDev) ...[
+                  const SizedBox(height: 8),
+                  Container(
+                    width: double.infinity,
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 12,
+                      vertical: 8,
+                    ),
+                    decoration: BoxDecoration(
+                      color: AppColors.warning.withAlpha(30),
+                      borderRadius: BorderRadius.circular(8),
+                      border: Border.all(
+                        color: AppColors.warning.withAlpha(80),
+                      ),
+                    ),
+                    child: Text(
+                      '⚠️ Developer Mode — 1 player allowed',
+                      style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                        color: AppColors.warning,
+                      ),
+                      textAlign: TextAlign.center,
+                    ),
+                  ),
+                ],
                 const SizedBox(height: 16),
                 // Room code
                 Text(
@@ -197,7 +225,51 @@ class _HostLobbyScreenState extends ConsumerState<HostLobbyScreen> {
                     size: 120,
                   ),
                 ),
-                const SizedBox(height: 24),
+                const SizedBox(height: 8),
+                // Manual connection info
+                if (network.hostIp != null && network.port != null)
+                  GestureDetector(
+                    onTap: () {
+                      final info = '${network.hostIp}:${network.port}';
+                      Clipboard.setData(ClipboardData(text: info));
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        SnackBar(
+                          content: Text('Copied $info to clipboard'),
+                          duration: const Duration(seconds: 2),
+                        ),
+                      );
+                    },
+                    child: Column(
+                      children: [
+                        Text(
+                          'Manual connection info',
+                          style: Theme.of(context).textTheme.labelSmall
+                              ?.copyWith(color: AppColors.textMuted),
+                        ),
+                        const SizedBox(height: 2),
+                        Row(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            Text(
+                              '${network.hostIp} : ${network.port}',
+                              style: Theme.of(context).textTheme.bodySmall
+                                  ?.copyWith(
+                                    color: AppColors.neonCyan,
+                                    fontFamily: 'monospace',
+                                  ),
+                            ),
+                            const SizedBox(width: 4),
+                            const Icon(
+                              Icons.copy,
+                              size: 12,
+                              color: AppColors.textMuted,
+                            ),
+                          ],
+                        ),
+                      ],
+                    ),
+                  ),
+                const SizedBox(height: 16),
                 const Divider(),
                 const SizedBox(height: 8),
                 // Player list header
@@ -272,7 +344,11 @@ class _HostLobbyScreenState extends ConsumerState<HostLobbyScreen> {
                   child: ElevatedButton(
                     onPressed: canStart ? _startGame : null,
                     child: Text(
-                      canStart ? '🚀  Start Game' : 'Need at least 2 players',
+                      canStart
+                          ? '🚀  Start Game'
+                          : isDev
+                          ? 'Waiting for host to join...'
+                          : 'Need at least 2 players',
                     ),
                   ),
                 ),

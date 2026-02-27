@@ -16,6 +16,18 @@ class HomeScreen extends ConsumerWidget {
     final player = ref.watch(localPlayerProvider);
 
     return Scaffold(
+      appBar: AppBar(
+        automaticallyImplyLeading: false,
+        backgroundColor: Colors.transparent,
+        elevation: 0,
+        actions: [
+          IconButton(
+            icon: const Icon(Icons.settings_outlined, color: AppColors.textMuted),
+            tooltip: 'Settings',
+            onPressed: () => context.go(AppRoutes.settings),
+          ),
+        ],
+      ),
       body: SafeArea(
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 24),

@@ -12,6 +12,7 @@ import '../features/lobby/join_screen.dart';
 import '../features/nickname/nickname_screen.dart';
 import '../features/results/results_screen.dart';
 import '../features/scoreboard/scoreboard_screen.dart';
+import '../features/settings/settings_screen.dart';
 import '../features/splash/splash_screen.dart';
 import '../providers/player_provider.dart';
 
@@ -28,6 +29,7 @@ class AppRoutes {
   static const play = '/play';
   static const results = '/results';
   static const scoreboard = '/scoreboard';
+  static const settings = '/settings';
 }
 
 /// Creates the [GoRouter] using Riverpod [ref] for redirect logic.
@@ -40,8 +42,10 @@ GoRouter createAppRouter(WidgetRef ref) {
       final hasNickname = player != null && player.nickname.isNotEmpty;
       final location = state.matchedLocation;
 
-      // Allow splash and nickname without a profile.
-      if (location == AppRoutes.splash || location == AppRoutes.nickname) {
+      // Allow splash, nickname, and settings without a profile.
+      if (location == AppRoutes.splash ||
+          location == AppRoutes.nickname ||
+          location == AppRoutes.settings) {
         return null;
       }
 
@@ -104,6 +108,10 @@ GoRouter createAppRouter(WidgetRef ref) {
       GoRoute(
         path: AppRoutes.scoreboard,
         builder: (context, state) => const ScoreboardScreen(),
+      ),
+      GoRoute(
+        path: AppRoutes.settings,
+        builder: (context, state) => const SettingsScreen(),
       ),
     ],
   );

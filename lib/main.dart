@@ -9,6 +9,7 @@ import 'games/shake_race/shake_race_game.dart';
 import 'games/tap_frenzy/tap_frenzy_game.dart';
 import 'games/tap_war/tap_war_game.dart';
 import 'games/tilt_racer/tilt_racer_game.dart';
+import 'providers/settings_provider.dart';
 import 'routing/app_router.dart';
 
 void main() {
@@ -30,11 +31,22 @@ void _registerGames() {
 }
 
 /// Root application widget — uses GoRouter for navigation.
-class PartyPocketApp extends ConsumerWidget {
+class PartyPocketApp extends ConsumerStatefulWidget {
   const PartyPocketApp({super.key});
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  ConsumerState<PartyPocketApp> createState() => _PartyPocketAppState();
+}
+
+class _PartyPocketAppState extends ConsumerState<PartyPocketApp> {
+  @override
+  void initState() {
+    super.initState();
+    ref.read(settingsProvider.notifier).load();
+  }
+
+  @override
+  Widget build(BuildContext context) {
     final router = createAppRouter(ref);
 
     return MaterialApp.router(

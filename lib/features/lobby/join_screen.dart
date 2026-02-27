@@ -22,18 +22,19 @@ class JoinScreen extends ConsumerStatefulWidget {
 
 class _JoinScreenState extends ConsumerState<JoinScreen> {
   final _codeController = TextEditingController();
+  final _ipController = TextEditingController();
+  final _portController = TextEditingController();
   bool _joining = false;
   String? _error;
+  String? _manualError;
 
   @override
   void initState() {
     super.initState();
-    // Start mDNS discovery.
     ref.read(discoveryProvider.notifier).startDiscovery();
 
     if (widget.initialCode != null) {
       _codeController.text = widget.initialCode!;
-      // Auto-join after build.
       WidgetsBinding.instance.addPostFrameCallback((_) {
         _joinByCode(widget.initialCode!);
       });
@@ -43,6 +44,8 @@ class _JoinScreenState extends ConsumerState<JoinScreen> {
   @override
   void dispose() {
     _codeController.dispose();
+    _ipController.dispose();
+    _portController.dispose();
     ref.read(discoveryProvider.notifier).stopDiscovery();
     super.dispose();
   }
@@ -54,9 +57,6 @@ class _JoinScreenState extends ConsumerState<JoinScreen> {
   }
 
   Future<void> _joinByCode(String code) async {
-    // For manual code entry, we don't have host/port info.
-    // In a real app, the code would be resolved via discovery or a signalling
-    // server. For now, we check discovered rooms for a match.
     final rooms = ref.read(discoveryProvider);
     final match = rooms.where(
       (r) => r.roomCode.toUpperCase() == code.toUpperCase(),
@@ -66,7 +66,8 @@ class _JoinScreenState extends ConsumerState<JoinScreen> {
     } else {
       setState(
         () => _error =
-            'Room "$code" not found nearby. Make sure the host is on the same Wi-Fi.',
+            'Room "$code" not found via auto-discover. Try connecting manually '
+            "using the IP shown on the host's screen.",
       );
     }
   }
@@ -86,6 +87,37 @@ class _JoinScreenState extends ConsumerState<JoinScreen> {
         setState(() {
           _joining = false;
           _error = 'Failed to connect: $e';
+        });
+      }
+    }
+  }
+
+  Future<void> _connectManually() async {
+    final ip = _ipController.text.trim();
+    final portText = _portController.text.trim();
+    if (ip.isEmpty || portText.isEmpty) {
+      setState(() => _manualError = 'Enter both IP address and port.');
+      return;
+    }
+    final port = int.tryParse(portText);
+    if (port == null) {
+      setState(() => _manualError = 'Port must be a number.');
+      return;
+    }
+    setState(() {
+      _joining = true;
+      _manualError = null;
+    });
+    try {
+      await ref
+          .read(networkProvider.notifier)
+          .connectToHost(host: ip, port: port);
+      if (mounted) context.go(AppRoutes.lobby);
+    } catch (e) {
+      if (mounted) {
+        setState(() {
+          _joining = false;
+          _manualError = 'Failed to connect: $e';
         });
       }
     }
@@ -149,9 +181,9 @@ class _JoinScreenState extends ConsumerState<JoinScreen> {
                   padding: EdgeInsets.only(top: 16),
                   child: Center(child: CircularProgressIndicator()),
                 ),
-              const SizedBox(height: 32),
+              const SizedBox(height: 24),
               const Divider(),
-              const SizedBox(height: 16),
+              const SizedBox(height: 8),
               // Discovered rooms header
               Row(
                 children: [
@@ -166,7 +198,7 @@ class _JoinScreenState extends ConsumerState<JoinScreen> {
               const SizedBox(height: 8),
               if (discoveredRooms.isEmpty)
                 Padding(
-                  padding: const EdgeInsets.only(top: 24),
+                  padding: const EdgeInsets.only(top: 8, bottom: 8),
                   child: Column(
                     children: [
                       const Icon(
@@ -187,45 +219,104 @@ class _JoinScreenState extends ConsumerState<JoinScreen> {
                 ),
               // Discovered room list
               Expanded(
-                child: ListView.builder(
-                  itemCount: discoveredRooms.length,
-                  itemBuilder: (_, i) {
-                    final room = discoveredRooms[i];
-                    return Card(
-                          margin: const EdgeInsets.only(bottom: 8),
-                          child: ListTile(
-                            leading: CircleAvatar(
-                              backgroundColor: AppColors.neonMagenta.withAlpha(
-                                40,
+                child: ListView(
+                  children: [
+                    ...List.generate(discoveredRooms.length, (i) {
+                      final room = discoveredRooms[i];
+                      return Card(
+                            margin: const EdgeInsets.only(bottom: 8),
+                            child: ListTile(
+                              leading: CircleAvatar(
+                                backgroundColor:
+                                    AppColors.neonMagenta.withAlpha(40),
+                                child: const Text(
+                                  '🎮',
+                                  style: TextStyle(fontSize: 20),
+                                ),
                               ),
-                              child: const Text(
-                                '🎮',
-                                style: TextStyle(fontSize: 20),
+                              title: Text('Room ${room.roomCode}'),
+                              subtitle: Text(
+                                '${room.hostName} • ${room.currentPlayers}/${room.maxPlayers} players',
                               ),
-                            ),
-                            title: Text('Room ${room.roomCode}'),
-                            subtitle: Text(
-                              '${room.hostName} • ${room.currentPlayers}/${room.maxPlayers} players',
-                            ),
-                            trailing: room.isFull
-                                ? Chip(
-                                    label: const Text('Full'),
-                                    backgroundColor: AppColors.error.withAlpha(
-                                      30,
+                              trailing: room.isFull
+                                  ? Chip(
+                                      label: const Text('Full'),
+                                      backgroundColor:
+                                          AppColors.error.withAlpha(30),
+                                    )
+                                  : const Icon(
+                                      Icons.arrow_forward_ios,
+                                      size: 16,
+                                      color: AppColors.textMuted,
                                     ),
-                                  )
-                                : const Icon(
-                                    Icons.arrow_forward_ios,
-                                    size: 16,
-                                    color: AppColors.textMuted,
+                              onTap:
+                                  room.isFull ? null : () => _joinRoom(room),
+                            ),
+                          )
+                          .animate()
+                          .fadeIn(delay: (100 * i).ms, duration: 300.ms)
+                          .slideY(begin: 0.1, end: 0);
+                    }),
+                    // Manual connect expansion tile
+                    const SizedBox(height: 8),
+                    Theme(
+                      data: Theme.of(context).copyWith(
+                        dividerColor: Colors.transparent,
+                      ),
+                      child: ExpansionTile(
+                        leading: const Icon(
+                          Icons.lan_outlined,
+                          color: AppColors.textMuted,
+                        ),
+                        title: Text(
+                          'Connect Manually',
+                          style: Theme.of(context).textTheme.titleSmall
+                              ?.copyWith(color: AppColors.textMuted),
+                        ),
+                        children: [
+                          Padding(
+                            padding: const EdgeInsets.fromLTRB(16, 0, 16, 16),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.stretch,
+                              children: [
+                                TextField(
+                                  controller: _ipController,
+                                  decoration: const InputDecoration(
+                                    labelText: 'IP Address',
+                                    hintText: '192.168.1.x',
                                   ),
-                            onTap: room.isFull ? null : () => _joinRoom(room),
+                                  keyboardType: const TextInputType
+                                      .numberWithOptions(decimal: true),
+                                ),
+                                const SizedBox(height: 8),
+                                TextField(
+                                  controller: _portController,
+                                  decoration: const InputDecoration(
+                                    labelText: 'Port',
+                                    hintText: '12345',
+                                  ),
+                                  keyboardType: TextInputType.number,
+                                ),
+                                if (_manualError != null) ...[
+                                  const SizedBox(height: 6),
+                                  Text(
+                                    _manualError!,
+                                    style: Theme.of(context).textTheme.bodySmall
+                                        ?.copyWith(color: AppColors.error),
+                                  ),
+                                ],
+                                const SizedBox(height: 12),
+                                ElevatedButton(
+                                  onPressed: _joining ? null : _connectManually,
+                                  child: const Text('Connect'),
+                                ),
+                              ],
+                            ),
                           ),
-                        )
-                        .animate()
-                        .fadeIn(delay: (100 * i).ms, duration: 300.ms)
-                        .slideY(begin: 0.1, end: 0);
-                  },
+                        ],
+                      ),
+                    ),
+                  ],
                 ),
               ),
             ],
@@ -235,3 +326,4 @@ class _JoinScreenState extends ConsumerState<JoinScreen> {
     );
   }
 }
+
