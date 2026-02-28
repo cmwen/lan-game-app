@@ -212,7 +212,7 @@ class _HostLobbyScreenState extends ConsumerState<HostLobbyScreen> {
                       duration: 300.ms,
                     ),
                 const SizedBox(height: 16),
-                // QR code
+                // QR code (contains connection info for easy sharing)
                 Container(
                   padding: const EdgeInsets.all(12),
                   decoration: BoxDecoration(
@@ -220,7 +220,9 @@ class _HostLobbyScreenState extends ConsumerState<HostLobbyScreen> {
                     borderRadius: BorderRadius.circular(12),
                   ),
                   child: QrImageView(
-                    data: roomCode,
+                    data: network.hostIp != null && network.port != null
+                        ? '$roomCode@${network.hostIp}:${network.port}'
+                        : roomCode,
                     version: QrVersions.auto,
                     size: 120,
                   ),

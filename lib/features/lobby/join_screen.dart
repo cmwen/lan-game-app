@@ -36,7 +36,7 @@ class _JoinScreenState extends ConsumerState<JoinScreen> {
     if (widget.initialCode != null) {
       _codeController.text = widget.initialCode!;
       WidgetsBinding.instance.addPostFrameCallback((_) {
-        _joinByCode(widget.initialCode!);
+        _handleInput(widget.initialCode!);
       });
     }
   }
@@ -50,10 +50,42 @@ class _JoinScreenState extends ConsumerState<JoinScreen> {
     super.dispose();
   }
 
-  void _onCodeChanged(String value) {
+  /// Parse input that may be a room code, `CODE@IP:PORT`, or `IP:PORT`.
+  void _handleInput(String value) {
+    // Format: CODE@IP:PORT (from QR code)
+    final qrMatch = RegExp(r'^([A-Z0-9]{4})@(.+):(\d+)$').firstMatch(
+      value.trim().toUpperCase(),
+    );
+    if (qrMatch != null) {
+      final ip = value.trim().split('@')[1].split(':')[0]; // preserve case
+      final port = int.tryParse(qrMatch.group(3)!);
+      if (port != null) {
+        _connectDirectly(ip, port);
+        return;
+      }
+    }
+
+    // Format: IP:PORT (manual paste)
+    final ipPortMatch = RegExp(
+      r'^(\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}):(\d+)$',
+    ).firstMatch(value.trim());
+    if (ipPortMatch != null) {
+      final ip = ipPortMatch.group(1)!;
+      final port = int.tryParse(ipPortMatch.group(2)!);
+      if (port != null) {
+        _connectDirectly(ip, port);
+        return;
+      }
+    }
+
+    // Plain 4-char room code
     if (value.length == 4) {
       _joinByCode(value.toUpperCase());
     }
+  }
+
+  void _onCodeChanged(String value) {
+    _handleInput(value);
   }
 
   Future<void> _joinByCode(String code) async {
@@ -66,10 +98,35 @@ class _JoinScreenState extends ConsumerState<JoinScreen> {
     } else {
       setState(
         () => _error =
-            'Room "$code" not found via auto-discover. Try connecting manually '
-            "using the IP shown on the host's screen.",
+            'Room "$code" not found nearby. Paste the full connection info '
+            '(CODE@IP:PORT) from the host screen, or connect manually below.',
       );
     }
+  }
+
+  Future<void> _connectDirectly(String ip, int port) async {
+    setState(() {
+      _joining = true;
+      _error = null;
+    });
+    try {
+      await ref
+          .read(networkProvider.notifier)
+          .connectToHost(host: ip, port: port);
+      if (mounted) context.go(AppRoutes.lobby);
+    } catch (e) {
+      if (mounted) {
+        setState(() {
+          _joining = false;
+          _error = 'Failed to connect to $ip:$port — $e';
+        });
+      }
+    }
+  }
+
+  Future<void> _refreshDiscovery() async {
+    await ref.read(discoveryProvider.notifier).stopDiscovery();
+    await ref.read(discoveryProvider.notifier).startDiscovery();
   }
 
   Future<void> _joinRoom(DiscoveredRoom room) async {
@@ -144,7 +201,7 @@ class _JoinScreenState extends ConsumerState<JoinScreen> {
               const SizedBox(height: 24),
               // Code entry
               Text(
-                'Enter Room Code',
+                'Enter Room Code or Connection Info',
                 style: Theme.of(context).textTheme.titleMedium?.copyWith(
                   color: AppColors.textSecondary,
                 ),
@@ -153,15 +210,14 @@ class _JoinScreenState extends ConsumerState<JoinScreen> {
               const SizedBox(height: 12),
               TextField(
                 controller: _codeController,
-                maxLength: 4,
                 textCapitalization: TextCapitalization.characters,
                 textAlign: TextAlign.center,
                 style: Theme.of(context).textTheme.headlineLarge?.copyWith(
-                  letterSpacing: 12,
+                  letterSpacing: 8,
                   color: AppColors.neonCyan,
                 ),
                 decoration: const InputDecoration(
-                  hintText: '_ _ _ _',
+                  hintText: 'CODE or CODE@IP:PORT',
                   counterText: '',
                 ),
                 onChanged: _onCodeChanged,
@@ -192,6 +248,12 @@ class _JoinScreenState extends ConsumerState<JoinScreen> {
                   Text(
                     'Nearby Games',
                     style: Theme.of(context).textTheme.titleMedium,
+                  ),
+                  const Spacer(),
+                  IconButton(
+                    icon: const Icon(Icons.refresh, color: AppColors.textMuted),
+                    tooltip: 'Refresh',
+                    onPressed: _refreshDiscovery,
                   ),
                 ],
               ),

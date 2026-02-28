@@ -70,15 +70,25 @@ class GameRoom {
   );
 
   @override
-  bool operator ==(Object other) =>
-      identical(this, other) ||
-      other is GameRoom &&
-          runtimeType == other.runtimeType &&
-          code == other.code &&
-          hostId == other.hostId;
+  bool operator ==(Object other) {
+    if (identical(this, other)) return true;
+    if (other is! GameRoom) return false;
+    if (code != other.code ||
+        hostId != other.hostId ||
+        state != other.state ||
+        currentGameId != other.currentGameId ||
+        players.length != other.players.length) {
+      return false;
+    }
+    for (var i = 0; i < players.length; i++) {
+      if (players[i] != other.players[i]) return false;
+    }
+    return true;
+  }
 
   @override
-  int get hashCode => Object.hash(code, hostId);
+  int get hashCode =>
+      Object.hash(code, hostId, state, currentGameId, players.length);
 
   @override
   String toString() =>
