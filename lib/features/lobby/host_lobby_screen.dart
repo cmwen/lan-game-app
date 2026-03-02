@@ -174,9 +174,9 @@ class _HostLobbyScreenState extends ConsumerState<HostLobbyScreen> {
                     ),
                     child: Text(
                       '⚠️ Developer Mode — 1 player allowed',
-                      style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                        color: AppColors.warning,
-                      ),
+                      style: Theme.of(
+                        context,
+                      ).textTheme.bodySmall?.copyWith(color: AppColors.warning),
                       textAlign: TextAlign.center,
                     ),
                   ),

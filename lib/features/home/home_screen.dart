@@ -22,7 +22,10 @@ class HomeScreen extends ConsumerWidget {
         elevation: 0,
         actions: [
           IconButton(
-            icon: const Icon(Icons.settings_outlined, color: AppColors.textMuted),
+            icon: const Icon(
+              Icons.settings_outlined,
+              color: AppColors.textMuted,
+            ),
             tooltip: 'Settings',
             onPressed: () => context.go(AppRoutes.settings),
           ),

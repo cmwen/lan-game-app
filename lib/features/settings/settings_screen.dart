@@ -135,8 +135,9 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
                       'multicast traffic between clients. If auto-discovery '
                       "fails, use the IP:port shown on the host's screen to "
                       'connect manually.',
-                      style: Theme.of(context).textTheme.bodySmall
-                          ?.copyWith(color: AppColors.textMuted),
+                      style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                        color: AppColors.textMuted,
+                      ),
                     ),
                   ],
                 ),
