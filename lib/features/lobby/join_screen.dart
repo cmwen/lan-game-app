@@ -53,9 +53,9 @@ class _JoinScreenState extends ConsumerState<JoinScreen> {
   /// Parse input that may be a room code, `CODE@IP:PORT`, or `IP:PORT`.
   void _handleInput(String value) {
     // Format: CODE@IP:PORT (from QR code)
-    final qrMatch = RegExp(r'^([A-Z0-9]{4})@(.+):(\d+)$').firstMatch(
-      value.trim().toUpperCase(),
-    );
+    final qrMatch = RegExp(
+      r'^([A-Z0-9]{4})@(.+):(\d+)$',
+    ).firstMatch(value.trim().toUpperCase());
     if (qrMatch != null) {
       final ip = value.trim().split('@')[1].split(':')[0]; // preserve case
       final port = int.tryParse(qrMatch.group(3)!);
@@ -289,8 +289,8 @@ class _JoinScreenState extends ConsumerState<JoinScreen> {
                             margin: const EdgeInsets.only(bottom: 8),
                             child: ListTile(
                               leading: CircleAvatar(
-                                backgroundColor:
-                                    AppColors.neonMagenta.withAlpha(40),
+                                backgroundColor: AppColors.neonMagenta
+                                    .withAlpha(40),
                                 child: const Text(
                                   '🎮',
                                   style: TextStyle(fontSize: 20),
@@ -303,16 +303,15 @@ class _JoinScreenState extends ConsumerState<JoinScreen> {
                               trailing: room.isFull
                                   ? Chip(
                                       label: const Text('Full'),
-                                      backgroundColor:
-                                          AppColors.error.withAlpha(30),
+                                      backgroundColor: AppColors.error
+                                          .withAlpha(30),
                                     )
                                   : const Icon(
                                       Icons.arrow_forward_ios,
                                       size: 16,
                                       color: AppColors.textMuted,
                                     ),
-                              onTap:
-                                  room.isFull ? null : () => _joinRoom(room),
+                              onTap: room.isFull ? null : () => _joinRoom(room),
                             ),
                           )
                           .animate()
@@ -322,9 +321,9 @@ class _JoinScreenState extends ConsumerState<JoinScreen> {
                     // Manual connect expansion tile
                     const SizedBox(height: 8),
                     Theme(
-                      data: Theme.of(context).copyWith(
-                        dividerColor: Colors.transparent,
-                      ),
+                      data: Theme.of(
+                        context,
+                      ).copyWith(dividerColor: Colors.transparent),
                       child: ExpansionTile(
                         leading: const Icon(
                           Icons.lan_outlined,
@@ -347,8 +346,10 @@ class _JoinScreenState extends ConsumerState<JoinScreen> {
                                     labelText: 'IP Address',
                                     hintText: '192.168.1.x',
                                   ),
-                                  keyboardType: const TextInputType
-                                      .numberWithOptions(decimal: true),
+                                  keyboardType:
+                                      const TextInputType.numberWithOptions(
+                                        decimal: true,
+                                      ),
                                 ),
                                 const SizedBox(height: 8),
                                 TextField(
@@ -388,4 +389,3 @@ class _JoinScreenState extends ConsumerState<JoinScreen> {
     );
   }
 }
-
